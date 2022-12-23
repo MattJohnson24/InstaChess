@@ -1,0 +1,34 @@
+body {
+    background-image: url("homeboard.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: lighten;
+    background-color: #ad974f;
+    background-attachment:fixed;
+
+}
+
+.homeparent {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin:auto;
+    justify-content: center;
+  }
+
+.logo {
+    position: relative;
+    width: 30%;
+    z-index: 3;
+}
+
+.guest, .login {
+    background-color: #AD974F; /* Green */
+    color: white;
+    padding: 35px 42px;
+    text-align: center;
+    display: inline-block;
+    border-radius: 30px;
+    font-size: 32px;
+    font-family: Impact, fantasy;
+}

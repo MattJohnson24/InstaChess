@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+  </head>
+  <body>
+    <main>
+      <div class="homeparent">
+        <form action="/guest" method="GET">
+          <button class="guest">PLAY AS GUEST</button>
+        </form>
+        <img class="logo" src="/static/logo2.png">
+        <form action="/login" method="GET">
+          <button class="login">LOGIN</button>
+        </form>
+      </div>
+    </main>
+	<script src="index.js"></script>
+  </body>
+</html>

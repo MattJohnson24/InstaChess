@@ -4,3 +4,4 @@ client = MongoClient("mongo")
 db = client["InstaChess"]
 users = db["users"]
 games = db["games"]
+authentication = db["authentication"]

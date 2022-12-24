@@ -1,0 +1,48 @@
+body {
+    background-image: url("homeboard.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: lighten;
+    background-color: #ad974f;
+    background-attachment:fixed;
+}
+
+.maincontainer {
+    display: flex;
+    background: transparent;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.box{
+    width: 25vw;
+    height: 60vh;
+    padding: 5px;
+    display: inline-block;
+    margin-right: -4px;
+}
+
+#slider {
+    background: #AD974F;
+}
+
+#inputregister {
+    background: white;
+}
+
+.registerform {
+    font-size: 30px
+}
+
+input[type="text"] {
+    font-size: 30px;
+}
+
+.submitbutton {
+    text-align: center;
+}
+
+.usernametext {
+    padding-left: 2vw;
+    overflow: hidden;
+}

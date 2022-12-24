@@ -2,12 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>My Website</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='play.css')}}">
+    <title>InstaChess</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css')}}">
   </head>
   <body>
     <main>
-        <p>LOGIN</p>
+      <form action="/register" method="GET">
+        <button class="register">REGISTER</button>
+      </form>
     </main>
 	<script src="index.js"></script>
   </body>

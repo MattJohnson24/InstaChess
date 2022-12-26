@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='play.css')}}">
+    <script defer src="/static/game.js"></script>
+  </head>
+  <body id="chessgamebelow" >
+    <main>
+        <h1>CHESSBOARD</h1>
+        <div class="chess-game">
+          <table class="chess-board">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th>a</th>
+                    <th>b</th>
+                    <th>c</th>
+                    <th>d</th>
+                    <th>e</th>
+                    <th>f</th>
+                    <th>g</th>
+                    <th>h</th>
+                </tr>
+                <tr>
+                    <th>8</th>
+                    <td id="a8" onclick="tdclick('a8');" class="light">{{a8}}</td>
+                    <td id="b8" onclick="tdclick('b8');" class="dark">{{b8}}</td>
+                    <td id="c8" onclick="tdclick('c8');" class="light">{{c8}}</td>
+                    <td id="d8" onclick="tdclick('d8');" class="dark">{{d8}}</td>
+                    <td id="e8" onclick="tdclick('e8');" class="light">{{e8}}</td>
+                    <td id="f8" onclick="tdclick('f8');" class="dark">{{f8}}</td>
+                    <td id="g8" onclick="tdclick('g8');" class="light">{{g8}}</td>
+                    <td id="h8" onclick="tdclick('h8');" class="dark">{{h8}}</td>
+                </tr>
+                <tr>
+                    <th>7</th>
+                    <td id="a7" onclick="tdclick('a7');" class="dark">{{a7}}</td>
+                    <td id="b7" onclick="tdclick('b7');" class="light">{{b7}}</td>
+                    <td id="c7" onclick="tdclick('c7');" class="dark">{{c7}}</td>
+                    <td id="d7" onclick="tdclick('d7');" class="light">{{d7}}</td>
+                    <td id="e7" onclick="tdclick('e7');" class="dark">{{e7}}</td>
+                    <td id="f7" onclick="tdclick('f7');" class="light">{{f7}}</td>
+                    <td id="g7" onclick="tdclick('g7');" class="dark">{{g7}}</td>
+                    <td id="h7" onclick="tdclick('h7');" class="light">{{h7}}</td>
+                </tr>
+                <tr>
+                    <th>6</th>
+                    <td id="a6" onclick="tdclick('a6');" class="light">{{a6}}</td>
+                    <td id="b6" onclick="tdclick('b6');" class="dark">{{b6}}</td>
+                    <td id="c6" onclick="tdclick('c6');" class="light">{{c6}}</td>
+                    <td id="d6" onclick="tdclick('d6');" class="dark">{{d6}}</td>
+                    <td id="e6" onclick="tdclick('e6');" class="light">{{e6}}</td>
+                    <td id="f6" onclick="tdclick('f6');" class="dark">{{f6}}</td>
+                    <td id="g6" onclick="tdclick('g6');" class="light">{{g6}}</td>
+                    <td id="h6" onclick="tdclick('h6');" class="dark">{{h6}}</td>
+                </tr>
+                <tr>
+                    <th>5</th>
+                    <td id="a5" onclick="tdclick('a5');" class="dark">{{a5}}</td>
+                    <td id="b5" onclick="tdclick('b5');" class="light">{{b5}}</td>
+                    <td id="c5" onclick="tdclick('c5');" class="dark">{{c5}}</td>
+                    <td id="d5" onclick="tdclick('d5');" class="light">{{d5}}</td>
+                    <td id="e5" onclick="tdclick('e5');" class="dark">{{e5}}</td>
+                    <td id="f5" onclick="tdclick('f5');" class="light">{{f5}}</td>
+                    <td id="g5" onclick="tdclick('g5');" class="dark">{{g5}}</td>
+                    <td id="h5" onclick="tdclick('h5');" class="light">{{h5}}</td>
+                </tr>
+                <tr>
+                    <th>4</th>
+                    <td id="a4" onclick="tdclick('a4');" class="light">{{a4}}</td>
+                    <td id="b4" onclick="tdclick('b4');" class="dark">{{b4}}</td>
+                    <td id="c4" onclick="tdclick('c4');" class="light">{{c4}}</td>
+                    <td id="d4" onclick="tdclick('d4');" class="dark">{{d4}}</td>
+                    <td id="e4" onclick="tdclick('e4');" class="light">{{e4}}</td>
+                    <td id="f4" onclick="tdclick('f4');" class="dark">{{f4}}</td>
+                    <td id="g4" onclick="tdclick('g4');" class="light">{{g4}}</td>
+                    <td id="h4" onclick="tdclick('h4');" class="dark">{{h4}}</td>
+                </tr>
+                <tr>
+                    <th>3</th>
+                    <td id="a3" onclick="tdclick('a3');" class="dark">{{a3}}</td>
+                    <td id="b3" onclick="tdclick('b3');" class="light">{{b3}}</td>
+                    <td id="c3" onclick="tdclick('c3');" class="dark">{{c3}}</td>
+                    <td id="d3" onclick="tdclick('d3');" class="light">{{d3}}</td>
+                    <td id="e3" onclick="tdclick('e3');" class="dark">{{e3}}</td>
+                    <td id="f3" onclick="tdclick('f3');" class="light">{{f3}}</td>
+                    <td id="g3" onclick="tdclick('g3');" class="dark">{{g3}}</td>
+                    <td id="h3" onclick="tdclick('h3');" class="light">{{h3}}</td>
+                </tr>
+                <tr>
+                    <th>2</th>
+                    <td id="a2" onclick="tdclick('a2');" class="light">{{a2}}</td>
+                    <td id="b2" onclick="tdclick('b2');" class="dark">{{b2}}</td>
+                    <td id="c2" onclick="tdclick('c2');" class="light">{{c2}}</td>
+                    <td id="d2" onclick="tdclick('d2');" class="dark">{{d2}}</td>
+                    <td id="e2" onclick="tdclick('e2');" class="light">{{e2}}</td>
+                    <td id="f2" onclick="tdclick('f2');" class="dark">{{f2}}</td>
+                    <td id="g2" onclick="tdclick('g2');" class="light">{{g2}}</td>
+                    <td id="h2" onclick="tdclick('h2');" class="dark">{{h2}}</td>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <td id="a1" onclick="tdclick('a1');" class="dark">{{a1}}</td>
+                    <td id="b1" onclick="tdclick('b1');" class="light">{{b1}}</td>
+                    <td id="c1" onclick="tdclick('c1');" class="dark">{{c1}}</td>
+                    <td id="d1" onclick="tdclick('d1');" class="light">{{d1}}</td>
+                    <td id="e1" onclick="tdclick('e1');" class="dark">{{e1}}</td>
+                    <td id="f1" onclick="tdclick('f1');" class="light">{{f1}}</td>
+                    <td id="g1" onclick="tdclick('g1');" class="dark">{{g1}}</td>
+                    <td id="h1" onclick="tdclick('h1');" class="light">{{h1}}</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    </main>
+  </body>
+</html>

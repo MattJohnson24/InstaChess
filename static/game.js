@@ -70,6 +70,7 @@ function selectedPiece(){
 }
 
 function movePiece(piece, move){
+    alternateClocks();
     let xhr = new XMLHttpRequest();
     paths = window.location.pathname.split("/");
     code = paths[paths.length - 1];
@@ -86,6 +87,7 @@ function movePiece(piece, move){
         // Runs when the request is successful
         newhtml = xhr.responseText;
         document.getElementById("chessgamebelow").innerHTML = newhtml;
+        
       } else {
         // Runs when it's not
       }
@@ -106,6 +108,27 @@ socket.on("newMessage", function (msg) {
     document.getElementById("messages").innerHTML += "<p>"+message+"</p>"
   });
 
+socket.on("newMove", function (move) {
+    alternateClocks();
+    let xhr = new XMLHttpRequest();
+    paths = window.location.pathname.split("/");
+    code = paths[paths.length - 1];
+    xhr.open("GET", "/game/" + code, false);
+    xhr.onload = function () {
+        // Process our return data
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // Runs when the request is successful
+            newhtml = xhr.responseText;
+            document.getElementById("chessgamebelow").innerHTML = newhtml;
+        } else {
+            // Runs when it's not
+        }
+    };
+    xhr.send();
+  });
+
+
+
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -119,5 +142,107 @@ function getCookie(cname) {
             return c.substring(name.length, c.length);
         }
     }
-    return "";
+    return "none";
+}
+
+function alternateClocks() {
+    let xhr = new XMLHttpRequest();
+    paths = window.location.pathname.split("/");
+    code = paths[paths.length - 1];
+    xhr.open("GET", "/turn/" + code, false);
+    xhr.onload = function () {
+        // Process our return data
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // Runs when the request is successful
+            turn = xhr.responseText;
+            console.log(turn)
+        } else {
+            // Runs when it's not
+        }
+    };
+    xhr.send();
+    try{
+        clearInterval(clock1)
+        updateWhiteTime(document.getElementById("countdown1").innerHTML)
+    } catch (error){
+        console.log("ERROR")
+    }
+    try{
+        clearInterval(clock2)
+        updateBlackTime(document.getElementById("countdown2").innerHTML)
+    } catch (error){
+        console.log("ERROR")
+    }
+    if(turn == "white"){
+        clock1 = setInterval(updateCountdown1, 1000);
+    }
+    else{
+        clock2 = setInterval(updateCountdown2, 1000);
+    }
+}
+
+function updateCountdown1() {
+    let time = document.getElementById('countdown1').innerHTML;
+    const countdownElement = document.getElementById('countdown1');
+    const minutes = Math.floor(time/60);
+    let seconds = time % 60;
+
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    time--;
+    countdownElement.innerHTML = `${time}`;
+    
+}
+
+function updateCountdown2() {
+    let time = document.getElementById('countdown2').innerHTML;
+    const countdownElement = document.getElementById('countdown2');
+    const minutes = Math.floor(time/60);
+    let seconds = time % 60;
+
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    time--;
+    countdownElement.innerHTML = `${time}`;
+    if(time <= 0){
+        
+    }
+}
+
+function updateWhiteTime(seconds) {
+    let xhr = new XMLHttpRequest();
+    paths = window.location.pathname.split("/");
+    code = paths[paths.length - 1];
+    xhr.open("POST", "/whitetime/" + code, false);
+    xhr.setRequestHeader(
+      "content-type",
+      "application/x-www-form-urlencoded;charset=UTF-8"
+    );
+    xhr.onload = function () {
+      // Process our return data
+      if (xhr.status >= 200 && xhr.status < 300) {
+        // Runs when the request is successful
+      } else {
+        // Runs when it's not
+      }
+    };
+    xhr.send("time=" + seconds);
+}
+
+function updateBlackTime(seconds) {
+    let xhr = new XMLHttpRequest();
+    paths = window.location.pathname.split("/");
+    code = paths[paths.length - 1];
+    xhr.open("POST", "/blacktime/" + code, false);
+    xhr.setRequestHeader(
+      "content-type",
+      "application/x-www-form-urlencoded;charset=UTF-8"
+    );
+    xhr.onload = function () {
+      // Process our return data
+      if (xhr.status >= 200 && xhr.status < 300) {
+        // Runs when the request is successful
+      } else {
+        // Runs when it's not
+      }
+    };
+    xhr.send("time=" + seconds);
 }

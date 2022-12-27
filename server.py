@@ -7,9 +7,8 @@ import chess
 import chesshelper
 from flask_socketio import SocketIO, send, join_room
 import json
-
-#board = chess.Board()
-#print(board.transform(chess.flip_vertical))
+import random
+import gameover
 
 token = "$2a$12$8LeOVbRrNLVIPZ7cp9WgNu"
 app = Flask(__name__)
@@ -43,7 +42,7 @@ def login():
                 response.set_cookie('auth', authToken)
                 return response
             else:
-                return response
+                return render_template("login.html")
     else:
         response = make_response(render_template("login.html"))
         response.set_cookie('auth', '', expires=0)
@@ -78,7 +77,9 @@ def register():
 @app.route("/create", methods = ['POST'])
 def create():
     time = escape(request.form['time'])
+    color = escape(request.form['color'])
     print(time)
+    print(color)
     code = secrets.token_urlsafe(30)
     authentication = request.cookies.get('auth')
     if authentication == None:
@@ -87,18 +88,52 @@ def create():
     if user == None:
         return redirect('/login')
     board = chess.Board()
-    games.insert_one({"owner": user, "id": code, "time": time, "board": board.fen()})
+    if color == "Random":
+        randnum = random.randrange(0,2)
+        print(randnum)
+        if  randnum > .5:
+            color = "White"
+        else:
+            color = "Black"
+    seconds = int(time)*60
+    if color == "White":
+        games.insert_one({"owner": user, "id": code, "time": time, "board": board.fen(), "White": user, "Black": "", "wtime": seconds, "btime": seconds})
+    else:
+        games.insert_one({"owner": user, "id": code, "time": time, "board": board.fen(), "White": "", "Black": user, "wtime": seconds, "btime": seconds})
+
     return redirect('/game/'+code)
 
 @app.route("/game/<code>", methods = ['GET'])
 def game(code):
     game = games.find_one({"id": code})
     board = game.get("board")
+    user = request.cookies.get("auth")
+    user = authToUser(user)
+    if game.get("White") == "" and user != None and user != game.get("owner"):
+        socketio.emit('newMove', {'user': user}, to=code)
+        games.update_one({"id": code}, {"$set": {"White": user}})
+        game = games.find_one({"id": code})
+    if game.get("Black") == "" and user != None and user != game.get("owner"):
+        socketio.emit('newMove', {'user': user}, to=code)
+        games.update_one({"id": code}, {"$set": {"Black": user}})
+        game = games.find_one({"id": code})
     currentBoard = chess.Board(board)
     boardmtx = chesshelper.make_matrix(currentBoard)
-    print(boardmtx)
-    print(boardmtx[0][0])
-    return render_template("game.html", a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
+    blackside = game.get("Black")
+    winner, result = gameover.game_status(currentBoard)
+    wtime = game.get("wtime")
+    btime = game.get("btime")
+    if user == blackside:
+        return render_template("game.html", wtime=wtime, btime=btime, winner=winner, result=result, user1=game.get("White"),user2=game.get("Black"),color="Black", a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
+    b1=boardmtx[7][1], b2=boardmtx[6][1], b3=boardmtx[5][1], b4=boardmtx[4][1], b5=boardmtx[3][1], b6=boardmtx[2][1], b7=boardmtx[1][1], b8=boardmtx[0][1],
+    c1=boardmtx[7][2], c2=boardmtx[6][2], c3=boardmtx[5][2], c4=boardmtx[4][2], c5=boardmtx[3][2], c6=boardmtx[2][2], c7=boardmtx[1][2], c8=boardmtx[0][2],
+    d1=boardmtx[7][3], d2=boardmtx[6][3], d3=boardmtx[5][3], d4=boardmtx[4][3], d5=boardmtx[3][3], d6=boardmtx[2][3], d7=boardmtx[1][3], d8=boardmtx[0][3],
+    e1=boardmtx[7][4], e2=boardmtx[6][4], e3=boardmtx[5][4], e4=boardmtx[4][4], e5=boardmtx[3][4], e6=boardmtx[2][4], e7=boardmtx[1][4], e8=boardmtx[0][4],
+    f1=boardmtx[7][5], f2=boardmtx[6][5], f3=boardmtx[5][5], f4=boardmtx[4][5], f5=boardmtx[3][5], f6=boardmtx[2][5], f7=boardmtx[1][5], f8=boardmtx[0][5],
+    g1=boardmtx[7][6], g2=boardmtx[6][6], g3=boardmtx[5][6], g4=boardmtx[4][6], g5=boardmtx[3][6], g6=boardmtx[2][6], g7=boardmtx[1][6], g8=boardmtx[0][6],
+    h1=boardmtx[7][7], h2=boardmtx[6][7], h3=boardmtx[5][7], h4=boardmtx[4][7], h5=boardmtx[3][7], h6=boardmtx[2][7], h7=boardmtx[1][7], h8=boardmtx[0][7])
+    else:
+        return render_template("game.html", wtime=wtime, btime=btime, winner=winner, result=result, user1=game.get("White"),user2=game.get("Black"),color="White",a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
     b1=boardmtx[7][1], b2=boardmtx[6][1], b3=boardmtx[5][1], b4=boardmtx[4][1], b5=boardmtx[3][1], b6=boardmtx[2][1], b7=boardmtx[1][1], b8=boardmtx[0][1],
     c1=boardmtx[7][2], c2=boardmtx[6][2], c3=boardmtx[5][2], c4=boardmtx[4][2], c5=boardmtx[3][2], c6=boardmtx[2][2], c7=boardmtx[1][2], c8=boardmtx[0][2],
     d1=boardmtx[7][3], d2=boardmtx[6][3], d3=boardmtx[5][3], d4=boardmtx[4][3], d5=boardmtx[3][3], d6=boardmtx[2][3], d7=boardmtx[1][3], d8=boardmtx[0][3],
@@ -138,6 +173,7 @@ def move(code):
     updateboard = chess.Move.from_uci(piece+move)
     currentBoard.push(updateboard)
     games.update_one({"id": code}, {"$set": {"board": currentBoard.fen()}})
+    socketio.emit('newMove', {'board': currentBoard.fen()}, to=code)
     return redirect("/game/"+code)
 
 @socketio.on('message')
@@ -155,12 +191,34 @@ def handle_message(msg):
 def initialSend(data):
     authID = data['authToken']
     room = data['code']
+    if authID == "none":
+        return
     username = authToUser(authID)
     if username == None:
         return
     else:
         join_room(room)
         socketio.emit('newMessage', {'messages': "entered the room."}, to=room)
+
+@app.route("/turn/<code>", methods = ['GET'])
+def turn(code):
+    game = games.find_one({"id": code})
+    board = game.get("board")
+    currentBoard = chess.Board(board)
+    if currentBoard.turn == True:
+        return "white"
+    else:
+        return "black"
+    
+@app.route("/whitetime/<code>", methods = ['POST'])
+def whitetime(code):
+    games.update_one({"id": code}, {"$set": {"wtime": request.form['time']}})
+    return "1"
+
+@app.route("/blacktime/<code>", methods = ['POST'])
+def blacktime(code):
+    games.update_one({"id": code}, {"$set": {"btime": request.form['time']}})
+    return "1"
 
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0",port=8081,debug=True)

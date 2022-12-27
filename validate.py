@@ -14,6 +14,8 @@ def validNewPassword(password, confirmpassword):
         return True
 
 def authToUser(token):
+    if token == None:
+        return token
     salt="$2a$12$8LeOVbRrNLVIPZ7cp9WgNu"
     authKey = bcrypt.hashpw(token, salt)
     user = authentication.find_one({"authToken":authKey}).get("username")

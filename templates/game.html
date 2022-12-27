@@ -4,11 +4,26 @@
     <meta charset="UTF-8">
     <title>My Website</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='play.css')}}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
     <script defer src="/static/game.js"></script>
   </head>
   <body id="chessgamebelow" >
     <main>
         <h1>CHESSBOARD</h1>
+        <script>
+            const socket = io.connect('http://127.0.0.1:8081')
+            socket.on('connect', function () {
+                paths = window.location.pathname.split("/");
+                code = paths[paths.length - 1];
+                socket.emit("initialDataRequest", {
+                    code: code,
+                    authToken: getCookie("auth"),
+            });
+            });
+        </script>
+        <ul id="messages"></ul>
+        <input type="text" id="myMessage">
+        <button id="sendbutton" onclick="sendMessage()">Send</button>
         <div class="chess-game">
           <table class="chess-board">
             <tbody>

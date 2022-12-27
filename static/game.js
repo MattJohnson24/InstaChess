@@ -92,3 +92,32 @@ function movePiece(piece, move){
     };
     xhr.send("move=" + move+ "&piece=" +piece);
 }
+
+function sendMessage(){
+    paths = window.location.pathname.split("/");
+    code = paths[paths.length - 1];
+    const comment = document.getElementById("myMessage").value;
+    document.getElementById("myMessage").value = ""
+    socket.send(JSON.stringify({comment: comment, code: code}))
+}
+
+socket.on("newMessage", function (msg) {
+    message = msg["messages"];
+    document.getElementById("messages").innerHTML += "<p>"+message+"</p>"
+  });
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}

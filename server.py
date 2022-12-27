@@ -5,9 +5,16 @@ import bcrypt
 import secrets
 import chess
 import chesshelper
+from flask_socketio import SocketIO, send, join_room
+import json
+
+#board = chess.Board()
+#print(board.transform(chess.flip_vertical))
 
 token = "$2a$12$8LeOVbRrNLVIPZ7cp9WgNu"
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'mysecret'
+socketio = SocketIO(app)
 
 @app.route("/")
 def home():
@@ -120,10 +127,40 @@ def move(code):
     currentBoard = chess.Board(board)
     move = request.form["move"]
     piece = request.form["piece"]
+    #ONLY OWNER CAN MOVE - make only player move its side
+    #auth = request.cookies.get("auth")
+    #if auth == None:
+    #    return redirect("/game/"+code)
+    #user = authToUser(auth)
+    #if user != game.get("owner"):
+    #    return redirect("/game/"+code)
+    ####
     updateboard = chess.Move.from_uci(piece+move)
     currentBoard.push(updateboard)
     games.update_one({"id": code}, {"$set": {"board": currentBoard.fen()}})
     return redirect("/game/"+code)
 
+@socketio.on('message')
+def handle_message(msg):
+    if "comment" in msg:
+        msg = escape(msg)
+        jsonformat = json.loads(msg)
+        comment = jsonformat.get("comment")
+        code = jsonformat.get("code")
+        print(comment)
+        print(code)
+        socketio.emit('newMessage', {'messages': comment}, to=code)
+
+@socketio.on('initialDataRequest')
+def initialSend(data):
+    authID = data['authToken']
+    room = data['code']
+    username = authToUser(authID)
+    if username == None:
+        return
+    else:
+        join_room(room)
+        socketio.emit('newMessage', {'messages': "entered the room."}, to=room)
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=8081,debug=True)
+    socketio.run(app, host="0.0.0.0",port=8081,debug=True)

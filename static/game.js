@@ -1,4 +1,9 @@
 function tdclick(coordinate) {
+    let time1 = document.getElementById('countdown1').innerHTML;
+    let time2 = document.getElementById('countdown2').innerHTML;
+    if(time1 <= 0 || time2 <= 0){
+        return
+    }
     chosenpiece = selectedPiece()
     if(document.getElementById(coordinate).style.backgroundColor == "red"){
         movePiece(chosenpiece, coordinate)
@@ -127,7 +132,23 @@ socket.on("newMove", function (move) {
     xhr.send();
   });
 
-
+socket.on("newUser", function (move) {
+    let xhr = new XMLHttpRequest();
+    paths = window.location.pathname.split("/");
+    code = paths[paths.length - 1];
+    xhr.open("GET", "/game/" + code, false);
+    xhr.onload = function () {
+        // Process our return data
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // Runs when the request is successful
+            newhtml = xhr.responseText;
+            document.getElementById("chessgamebelow").innerHTML = newhtml;
+        } else {
+            // Runs when it's not
+        }
+    };
+    xhr.send();
+  });
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -183,27 +204,41 @@ function alternateClocks() {
 
 function updateCountdown1() {
     let time = document.getElementById('countdown1').innerHTML;
-    const countdownElement = document.getElementById('countdown1');
-    const minutes = Math.floor(time/60);
-    let seconds = time % 60;
-
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-    time--;
-    countdownElement.innerHTML = `${time}`;
+    if(time <= 0){
+        try{
+            winner = document.getElementById("winner").innerHTML
+        } catch (error){
+            updateWhiteTime(0);
+        }
+    }
+    else{
+        const countdownElement = document.getElementById('countdown1');
+        const minutes = Math.floor(time/60);
+        let seconds = time % 60;
     
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        time--;
+        countdownElement.innerHTML = `${time}`;
+    }
 }
 
 function updateCountdown2() {
     let time = document.getElementById('countdown2').innerHTML;
-    const countdownElement = document.getElementById('countdown2');
-    const minutes = Math.floor(time/60);
-    let seconds = time % 60;
-
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-    time--;
-    countdownElement.innerHTML = `${time}`;
     if(time <= 0){
-        
+        try{
+            winner = document.getElementById("winner").innerHTML
+        } catch (error){
+            updateBlackTime(0);
+        }
+    }
+    else{
+        const countdownElement = document.getElementById('countdown2');
+        const minutes = Math.floor(time/60);
+        let seconds = time % 60;
+    
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        time--;
+        countdownElement.innerHTML = `${time}`;
     }
 }
 
@@ -245,4 +280,12 @@ function updateBlackTime(seconds) {
       }
     };
     xhr.send("time=" + seconds);
+}
+
+window.onclick = function (event) {
+    let modal = document.getElementById("myModal");
+    let x = document.getElementById("close");
+    if (event.target == modal || event.target == x) {
+        modal.style.display = "none";
+    }
 }

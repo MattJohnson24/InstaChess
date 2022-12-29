@@ -95,11 +95,11 @@ def create():
             color = "White"
         else:
             color = "Black"
-    seconds = int(time)*60
+    seconds = int(time)*10
     if color == "White":
-        games.insert_one({"owner": user, "id": code, "time": time, "board": board.fen(), "White": user, "Black": "", "wtime": seconds, "btime": seconds})
+        games.insert_one({"owner": user, "id": code, "time": time, "board": board.fen(), "White": user, "Black": "", "wtime": seconds, "btime": seconds, "chat": []})
     else:
-        games.insert_one({"owner": user, "id": code, "time": time, "board": board.fen(), "White": "", "Black": user, "wtime": seconds, "btime": seconds})
+        games.insert_one({"owner": user, "id": code, "time": time, "board": board.fen(), "White": "", "Black": user, "wtime": seconds, "btime": seconds, "chat": []})
 
     return redirect('/game/'+code)
 
@@ -109,12 +109,14 @@ def game(code):
     board = game.get("board")
     user = request.cookies.get("auth")
     user = authToUser(user)
+    if user == None:
+        return redirect("/login")
     if game.get("White") == "" and user != None and user != game.get("owner"):
-        socketio.emit('newMove', {'user': user}, to=code)
+        socketio.emit('newUser', {'user': user}, to=code)
         games.update_one({"id": code}, {"$set": {"White": user}})
         game = games.find_one({"id": code})
     if game.get("Black") == "" and user != None and user != game.get("owner"):
-        socketio.emit('newMove', {'user': user}, to=code)
+        socketio.emit('newUser', {'user': user}, to=code)
         games.update_one({"id": code}, {"$set": {"Black": user}})
         game = games.find_one({"id": code})
     currentBoard = chess.Board(board)
@@ -123,8 +125,21 @@ def game(code):
     winner, result = gameover.game_status(currentBoard)
     wtime = game.get("wtime")
     btime = game.get("btime")
+    chat = game.get("chat")
+    if winner == "":
+        if wtime == "0":
+            winner = "Black wins"
+            result = "TIME OUT"
+        elif btime == "0":
+            winner = "Black wins"
+            result = "TIME OUT"
+        else:
+            winner = ""
+            result = ""
+    print(winner)
+    print(result)
     if user == blackside:
-        return render_template("game.html", wtime=wtime, btime=btime, winner=winner, result=result, user1=game.get("White"),user2=game.get("Black"),color="Black", a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
+        return render_template("game.html", chat=chat, wtime=wtime, btime=btime, winner=winner, result=result, user1=game.get("White"),user2=game.get("Black"),color="Black", a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
     b1=boardmtx[7][1], b2=boardmtx[6][1], b3=boardmtx[5][1], b4=boardmtx[4][1], b5=boardmtx[3][1], b6=boardmtx[2][1], b7=boardmtx[1][1], b8=boardmtx[0][1],
     c1=boardmtx[7][2], c2=boardmtx[6][2], c3=boardmtx[5][2], c4=boardmtx[4][2], c5=boardmtx[3][2], c6=boardmtx[2][2], c7=boardmtx[1][2], c8=boardmtx[0][2],
     d1=boardmtx[7][3], d2=boardmtx[6][3], d3=boardmtx[5][3], d4=boardmtx[4][3], d5=boardmtx[3][3], d6=boardmtx[2][3], d7=boardmtx[1][3], d8=boardmtx[0][3],
@@ -133,7 +148,7 @@ def game(code):
     g1=boardmtx[7][6], g2=boardmtx[6][6], g3=boardmtx[5][6], g4=boardmtx[4][6], g5=boardmtx[3][6], g6=boardmtx[2][6], g7=boardmtx[1][6], g8=boardmtx[0][6],
     h1=boardmtx[7][7], h2=boardmtx[6][7], h3=boardmtx[5][7], h4=boardmtx[4][7], h5=boardmtx[3][7], h6=boardmtx[2][7], h7=boardmtx[1][7], h8=boardmtx[0][7])
     else:
-        return render_template("game.html", wtime=wtime, btime=btime, winner=winner, result=result, user1=game.get("White"),user2=game.get("Black"),color="White",a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
+        return render_template("game.html", chat=chat, wtime=wtime, btime=btime, winner=winner, result=result, user1=game.get("White"),user2=game.get("Black"),color="White",a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
     b1=boardmtx[7][1], b2=boardmtx[6][1], b3=boardmtx[5][1], b4=boardmtx[4][1], b5=boardmtx[3][1], b6=boardmtx[2][1], b7=boardmtx[1][1], b8=boardmtx[0][1],
     c1=boardmtx[7][2], c2=boardmtx[6][2], c3=boardmtx[5][2], c4=boardmtx[4][2], c5=boardmtx[3][2], c6=boardmtx[2][2], c7=boardmtx[1][2], c8=boardmtx[0][2],
     d1=boardmtx[7][3], d2=boardmtx[6][3], d3=boardmtx[5][3], d4=boardmtx[4][3], d5=boardmtx[3][3], d6=boardmtx[2][3], d7=boardmtx[1][3], d8=boardmtx[0][3],
@@ -149,6 +164,18 @@ def legalmoves(code, piece):
     board = game.get("board")
     currentBoard = chess.Board(board)
     moves = list(currentBoard.legal_moves)
+    whiteside = game.get("White")
+    blackside = game.get("Black")
+
+    auth = request.cookies.get("auth")
+    if auth == None:
+        return ""
+    user = authToUser(auth)
+    if user == whiteside and currentBoard.turn == False:
+        return ""
+    if user == blackside and currentBoard.turn == True:
+        return ""
+
     piecemoves = ""
     for each in moves:
         if str(each)[0:2] == piece:
@@ -162,14 +189,7 @@ def move(code):
     currentBoard = chess.Board(board)
     move = request.form["move"]
     piece = request.form["piece"]
-    #ONLY OWNER CAN MOVE - make only player move its side
-    #auth = request.cookies.get("auth")
-    #if auth == None:
-    #    return redirect("/game/"+code)
-    #user = authToUser(auth)
-    #if user != game.get("owner"):
-    #    return redirect("/game/"+code)
-    ####
+
     updateboard = chess.Move.from_uci(piece+move)
     currentBoard.push(updateboard)
     games.update_one({"id": code}, {"$set": {"board": currentBoard.fen()}})
@@ -185,7 +205,13 @@ def handle_message(msg):
         code = jsonformat.get("code")
         print(comment)
         print(code)
-        socketio.emit('newMessage', {'messages': comment}, to=code)
+        game = games.find_one({"id": code})
+        chat = game.get("chat")
+        auth = request.cookies.get("auth")
+        user = authToUser(auth)
+        chat.append(user+": "+comment)
+        games.update_one({"id": code}, {"$set": {"chat": chat}})
+        socketio.emit('newMessage', {'messages': user+": "+comment}, to=code)
 
 @socketio.on('initialDataRequest')
 def initialSend(data):
@@ -198,7 +224,7 @@ def initialSend(data):
         return
     else:
         join_room(room)
-        socketio.emit('newMessage', {'messages': "entered the room."}, to=room)
+        socketio.emit('newMessage', {'messages': username+" entered the room."}, to=room)
 
 @app.route("/turn/<code>", methods = ['GET'])
 def turn(code):
@@ -213,11 +239,16 @@ def turn(code):
 @app.route("/whitetime/<code>", methods = ['POST'])
 def whitetime(code):
     games.update_one({"id": code}, {"$set": {"wtime": request.form['time']}})
+    if request.form['time'] == "0":
+        socketio.emit('newUser', {'time': request.form['time']}, to=code)
     return "1"
 
 @app.route("/blacktime/<code>", methods = ['POST'])
 def blacktime(code):
+    print(type(request.form['time']))
     games.update_one({"id": code}, {"$set": {"btime": request.form['time']}})
+    if request.form['time'] == "0":
+        socketio.emit('newUser', {'time': request.form['time']}, to=code)
     return "1"
 
 if __name__ == "__main__":

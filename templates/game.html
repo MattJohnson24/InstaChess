@@ -45,8 +45,20 @@
                 <div class="top-user">
                     {% if color == "White" %}
                     <h2 class="usernames">{{user2}}</h2>
+                    <div class="promotion-selection">
+                        <div onclick="chosenPromotion('r')">♖</div>
+                        <div onclick="chosenPromotion('n')">♘</div>
+                        <div onclick="chosenPromotion('b')">♗</div>
+                        <div onclick="chosenPromotion('q')">♕</div>
+                    </div>
                     {% else %}
                     <h2 class="usernames">{{user1}}</h2>
+                    <div class="promotion-selection">
+                        <div onclick="chosenPromotion('r')">♜</div>
+                        <div onclick="chosenPromotion('n')">♞</div>
+                        <div onclick="chosenPromotion('b')">♝</div>
+                        <div onclick="chosenPromotion('q')">♛</div>
+                    </div>
                     {% endif %}
                 </div>
                 {% if color == "White" %}
@@ -274,11 +286,11 @@
             </div>
             <div class="chat-container">
                 <div class="chat-messages">
-                    <ul id="messages">
+                    <div id="messages">
                         {% for x in chat %}
-                        <p>{{x}}</p>
+                        <hr><span id="individualmessage">{{x}}</span><hr>
                         {% endfor %}
-                    </ul>
+                    </div>
                 </div>
                 <div class="send-messages">
                     <input type="text" id="myMessage">

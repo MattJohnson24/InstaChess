@@ -1,35 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>InstaChess</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_register.css')}}">
-    <script defer src="/static/registerlogin.js"></script>
-    <link rel="icon" type="image/x-icon" href="/static/logo2.png">
-  </head>
-  <body>
-    <main>
-        <div class="maincontainer">
-            <div id="slider" class="box">
-                
-            </div>
-            <div id="inputregister" class="box">
-                <div class="registerform">
-                  <form id="form" action="/login" method="post">
-                    <div class="usernametext">
-                      <label for="username">Username:</label><br>
-                      <input type="text" id="username" name="username" placeholder="Enter a username..."><br><br>
-                      <div id="error"></div>
-                      <label for="password">Password:</label><br>
-                      <input type="text" id="password" name="password" placeholder="Enter a password..."><br><br>
-                    </div>
-                    <div class="submitbutton">
-                      <input type="submit" value="Submit">
-                    </div>
-                  </form>
-                </div>
-            </div>
+
+<head>
+  <meta charset="UTF-8">
+  <title>InstaChess</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_register.css')}}">
+  <script defer src="/static/registerlogin.js"></script>
+  <link rel="icon" type="image/x-icon" href="/static/logo2.png">
+</head>
+<body>
+  <div class="container">
+    <form id="form" class="form" action="/login" method="post">
+      <h2>SIGN IN</h2>
+      <input type="text" class="box" id="username" name="username" placeholder="Enter username...">
+      <span id="missingusername-error" class="error">Enter a username</span>
+      <input type="password" class="box" id="password" name="password" placeholder="Enter password...">
+      <span id="missingpassword-error" class="error">Enter a password</span>
+      <input type="submit" value="Submit" id="submit">
+      <a href="/register">Create Account</a>
+    </form>
+    <div class="side">
+      <div class="slide">
+        <img id="side-img" src="/static/logo2.png" alt="">
+        <div class="leaderboard-slide">
+          leaderboard
         </div>
-    </main>
-  </body>
+        <div class="profile-slide">
+          stats
+        </div>
+      </div>
+      <div>
+        <span class="dot" id="dot1" onclick="currentSlide(1)"></span>
+        <span class="dot" id="dot2" onclick="currentSlide(2)"></span>
+        <span class="dot" id="dot3" onclick="currentSlide(3)"></span>
+      </div>
+    </div>
+
+  </div>
+</body>
+
 </html>

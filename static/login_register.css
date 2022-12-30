@@ -9,42 +9,141 @@ body {
     background-image: linear-gradient( 64.3deg,  rgba(254,122,152,0.81) 17.7%, rgba(255,206,134,1) 64.7%, rgba(172,253,163,0.64) 112.1% );
 }
 
-.maincontainer {
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
     display: flex;
-    background: transparent;
+    height: 600px;
+    width: 800px;
+    margin: auto;
+    margin-top: 15vh;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-items: center;
+    background-color: white;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.form h2{
+    font-size: 3rem;
+    font-family: sans-serif;
+    margin: 40px;
+}
+
+.box{
+    padding: 12px;
+    width: 65%;
+    margin: 15px;
+    border: 1px solid black;
+    outline: none;
+    border-radius: 5px;
+}
+
+#submit{
+    padding: 12px 30px;
+    width: 40%;
+    margin-top: 40px;
+    background-color: #5c6664;
+    color: white;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+}
+
+#submit:hover{
+    cursor: pointer;
+    background-color: black;
+}
+
+.form a{
+    text-decoration: none;
+    color: black;
+    margin-top: 20px;
+}
+
+.form a:hover{
+    color: red;
+}
+
+.side{
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    width: 50%;
+    background-color: #5c6664;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    flex-direction: column;
 }
-.box{
-    width: 25vw;
-    height: 60vh;
-    padding: 5px;
+
+.slide{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.side img{
+    width: 90%;
+    height: auto;
+    mix-blend-mode: multiply;
+}
+
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    border-radius: 50%;
     display: inline-block;
-    margin-right: -4px;
+    transition: background-color 0.6s ease;
+    margin-bottom: 20px;
 }
 
-#slider {
-    background: #AD974F;
+.active,
+.dot:hover {
+    background-color: #717171;
 }
 
-#inputregister {
-    background: white;
+#side-img{
+    display: block;
 }
 
-.registerform {
-    font-size: 30px
+.leaderboard-slide{
+    display: none;
 }
 
-input[type="text"] {
-    font-size: 30px;
+.profile-slide{
+    display: none;
 }
 
-.submitbutton {
-    text-align: center;
+#dot1{
+    background-color: black;
 }
 
-.usernametext {
-    padding-left: 2vw;
-    overflow: hidden;
+#dot2{
+    background-color: white;
+}
+
+#dot3{
+    background-color: white;
+}
+
+.error{
+    color: red;
+}
+
+#missingusername-error, #missingpassword-error, #missingconfirmpassword-error, #matchingpassword-error{
+    display: none;
 }

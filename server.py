@@ -58,7 +58,7 @@ def register():
             confirmpassword = escape(request.form['confirmpassword'])
             if validNewUser(username) == False:
                 print("INVALIDUSER")
-                return render_template("register.html", validUser=False)
+                return render_template("register.html", invalidUser=True)
             elif validNewPassword(password, confirmpassword) == False:
                 print("INVALIDPASS")
                 return render_template("register.html")
@@ -95,7 +95,7 @@ def create():
             color = "White"
         else:
             color = "Black"
-    seconds = int(time)*10
+    seconds = int(time)*60
     if color == "White":
         games.insert_one({"owner": user, "id": code, "time": time, "board": board.fen(), "White": user, "Black": "", "wtime": seconds, "btime": seconds, "chat": []})
     else:
@@ -120,6 +120,7 @@ def game(code):
         games.update_one({"id": code}, {"$set": {"Black": user}})
         game = games.find_one({"id": code})
     currentBoard = chess.Board(board)
+    print(board)
     boardmtx = chesshelper.make_matrix(currentBoard)
     blackside = game.get("Black")
     winner, result = gameover.game_status(currentBoard)
@@ -179,7 +180,8 @@ def legalmoves(code, piece):
     piecemoves = ""
     for each in moves:
         if str(each)[0:2] == piece:
-            piecemoves += str(each)[2:]
+            piecemoves += str(each)[2:] +","
+    print(piecemoves)
     return piecemoves
 
 @app.route("/move/<code>", methods = ['POST'])

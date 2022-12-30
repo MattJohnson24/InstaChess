@@ -6,23 +6,73 @@ const errorElement = document.getElementById('error')
 
 if(form){
     form.addEventListener('submit', (e) => {
-        let messages = []
-        console.log(username)
+        submit_error = false;
         if (username.value === '' || username.value === null){
-            messages.push('Username field empty')
+            document.getElementById("missingusername-error").style.display = "block";
+            submit_error = true;
+        }
+        else{
+            document.getElementById("missingusername-error").style.display = "none";
         }
     
         if (password.value === '' || password.value === null){
-            messages.push('Password field empty')
+            document.getElementById("missingpassword-error").style.display = "block";
+            submit_error = true;
+        }
+        else{
+            document.getElementById("missingpassword-error").style.display = "none";
         }
 
-        if (confirmpassword.value === '' || confirmpassword.value === null){
-            messages.push('Confirm password field empty')
+        try{
+            if (confirmpassword.value === '' || confirmpassword.value === null){
+                document.getElementById("missingconfirmpassword-error").style.display = "block";
+                submit_error = true;
+            }
+            else{
+                document.getElementById("missingconfirmpassword-error").style.display = "none";
+            }
+            
+            if (confirmpassword.value !=  password.value){
+                document.getElementById("matchingpassword-error").style.display = "block";
+                submit_error = true;
+            }
+            else{
+                document.getElementById("matchingpassword-error").style.display = "none";
+            }
         }
-        
-        if (messages.length > 0){
+        catch(error){
+
+        }
+
+        if (submit_error){
             e.preventDefault()
-            errorElement.innerText = messages.join(', ')
         }
     })
+}
+
+function currentSlide(slide){
+    if(slide == 1){
+        document.getElementsByClassName("profile-slide")[0].style.display = "none";
+        document.getElementsByClassName("leaderboard-slide")[0].style.display = "none";
+        document.getElementById("side-img").style.display = "block";
+        document.getElementById("dot1").style.backgroundColor = "#000000";
+        document.getElementById("dot2").style.backgroundColor = "#ffffff";
+        document.getElementById("dot3").style.backgroundColor = "#ffffff";
+    }
+    else if(slide == 2){
+        document.getElementsByClassName("profile-slide")[0].style.display = "block";
+        document.getElementsByClassName("leaderboard-slide")[0].style.display = "none";
+        document.getElementById("side-img").style.display = "none";
+        document.getElementById("dot1").style.backgroundColor = "#ffffff";
+        document.getElementById("dot2").style.backgroundColor = "#000000";
+        document.getElementById("dot3").style.backgroundColor = "#ffffff";
+    }
+    else{
+        document.getElementsByClassName("profile-slide")[0].style.display = "none";
+        document.getElementsByClassName("leaderboard-slide")[0].style.display = "block";
+        document.getElementById("side-img").style.display = "none";
+        document.getElementById("dot1").style.backgroundColor = "#ffffff";
+        document.getElementById("dot2").style.backgroundColor = "#ffffff";
+        document.getElementById("dot3").style.backgroundColor = "#000000";
+    }
 }

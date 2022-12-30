@@ -1,6 +1,8 @@
 function tdclick(coordinate) {
     let time1 = document.getElementById('countdown1').innerHTML;
     let time2 = document.getElementById('countdown2').innerHTML;
+    console.log("COLOR")
+    console.log(document.getElementById(coordinate).style.backgroundColor);
     if(time1 <= 0 || time2 <= 0){
         return
     }
@@ -8,7 +10,17 @@ function tdclick(coordinate) {
     if(document.getElementById(coordinate).style.backgroundColor == "red"){
         movePiece(chosenpiece, coordinate)
     }
+    else if(document.getElementById(coordinate).style.backgroundColor == "rgb(255, 0, 1)"){
+        globalcord = coordinate;
+        document.getElementsByClassName("promotion-selection")[0].style.display = "flex";
+        for (let i = 0; i < darkspaces.length; i++) {
+            darkspaces[i].style.backgroundColor = "#aaa";
+            lightspaces[i].style.backgroundColor = "#eee";
+        }
+        document.getElementById(coordinate).style.backgroundColor = "#FF0001"
+    }
     else{
+        document.getElementsByClassName("promotion-selection")[0].style.display = "none";
         console.log(document.getElementById(coordinate).getAttribute("moving"));
 
         darkspaces = document.getElementsByClassName('dark');
@@ -38,21 +50,28 @@ function tdclick(coordinate) {
             }
         };
         xhr.send();
+        console.log(moves)
         moveArray = moveParser(moves);
         console.log(moveArray);
-        console.log(moveArray.length);
-        for (let i = 0; i < moveArray.length; i++) {
-            console.log(moveArray[0]);
-            document.getElementById(String(moveArray[i])).style.backgroundColor = "red";
+        console.log(moveArray.length)
+        console.log("^^^")
+        if(moveArray[0] != ""){
+            for (let i = 0; i < moveArray.length; i++) {
+                console.log(moveArray[i]);
+                if(moveArray[i].length > 2){
+                    document.getElementById(String(moveArray[i]).substring(0,2)).style.backgroundColor = "#FF0001";
+                }
+                else{
+                    document.getElementById(String(moveArray[i])).style.backgroundColor = "red";
+                }
+            }
         }
     }
 }
 
 function moveParser(moves){
-    myArr = [];
-    for(let i = 0; i < moves.length; i+=2){
-        myArr.push(moves.substring(i,i+2))
-    }
+    moves = moves.slice(0,-1);
+    myArr = moves.split(",");
     return myArr;
 }
 
@@ -110,7 +129,7 @@ function sendMessage(){
 
 socket.on("newMessage", function (msg) {
     message = msg["messages"];
-    document.getElementById("messages").innerHTML += "<p>"+message+"</p>"
+    document.getElementById("messages").innerHTML += "<hr><span>"+message+"</span><hr>"
   });
 
 socket.on("newMove", function (move) {
@@ -294,16 +313,25 @@ document.querySelectorAll(".copy-link").forEach((copyLinkParent) => {
     const inputField = copyLinkParent.querySelector(".copy-link-input");
     const copyButton = copyLinkParent.querySelector(".copy-link-button");
     const text = inputField.value;
-  
+
     inputField.addEventListener("focus", () => inputField.select());
-  
+
     copyButton.addEventListener("click", () => {
-      inputField.select();
-      
-      navigator.clipboard.writeText(window.location);
-  
-      inputField.value = "Copied!";
-      setTimeout(() => (inputField.value = text), 2000);
+        inputField.select();
+
+        navigator.clipboard.writeText(window.location);
+
+        inputField.value = "Copied!";
+        setTimeout(() => (inputField.value = text), 2000);
     });
-  });
-  
+});
+
+
+function chosenPromotion(promotion){
+    console.log(promotion);
+    console.log("V GLOBALCORD V")
+    console.log(globalcord);
+    console.log("V CHOSEN PIECE V")
+    console.log(chosenpiece);
+    movePiece(chosenpiece, globalcord+promotion)
+}

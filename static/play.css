@@ -13,12 +13,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 33%;
     z-index: 1;
     min-width: 500px;
     flex-direction: column;
  }
-.chess-board { border-spacing: 0; border-collapse: collapse; }
+.chess-board { border-spacing: 0; border-collapse: collapse; cursor: pointer;}
 .chess-board th { padding: .5em; }
 .chess-board th + th { border-bottom: 1px solid #000; }
 .chess-board th:first-child,
@@ -34,7 +33,7 @@ body {
 }
 
 .chat-container {
-    background-color: gray;
+    background-color: rgb(255, 255, 255);
     border-radius: 10px;
     border-style: solid;
     border-color: black;
@@ -67,12 +66,14 @@ body {
     background: rgba(255, 255, 255, 0.5);
     max-width:100%;
     max-height:100%;
+    border-bottom: none;
+    border-left: none;
 }
 
 #sendbutton {
     display: flex;
     flex: 1;
-    background-color: #ad974f;
+    background-color: #5c6664;
 }
 
 ::-webkit-scrollbar {
@@ -85,7 +86,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #ad974f;
+    background: #5c6664;
     border-radius: 10px;
 }
 
@@ -98,7 +99,7 @@ img{
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 33%;
+    width: 20%;
     min-width: 500px;
 }
 
@@ -187,7 +188,7 @@ img{
 }
 
 .modal-header{
-    background-color: #ad974f;
+    background-image: linear-gradient( 64.3deg,  rgba(254,122,152,0.81) 17.7%, rgba(255,206,134,1) 64.7%, rgba(172,253,163,0.64) 112.1% );
     flex: 1;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 25px;
@@ -203,7 +204,7 @@ img{
     flex-direction: column;
     font-size: 30px;
     flex: 2;
-    background-color: rgb(190, 190, 190);
+    background-color: white;
     justify-content: center;
     align-items:center;
     font-family: Arial, Helvetica, sans-serif;
@@ -254,6 +255,10 @@ img{
 
 .chat-messages{
     font-size: 20px;
+}
+
+#messages{
+    padding-left: 5px;
 }
 
 .time-color-submit-container{
@@ -337,4 +342,21 @@ select::-ms-expand {
 
 #game-create:hover{
     color: #ad974f;
+}
+
+.promotion-selection{
+    display: flex;
+    display: none;
+    justify-content: center;
+    border: solid;
+    border-color: black;
+    background-color: white;
+    width: 100%;
+}
+
+.promotion-selection div{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 30px;
+    cursor: pointer;
 }

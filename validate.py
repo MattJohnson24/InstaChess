@@ -17,7 +17,7 @@ def authToUser(token):
     if token == None:
         return token
     salt="$2a$12$8LeOVbRrNLVIPZ7cp9WgNu"
-    authKey = bcrypt.hashpw(token, salt)
+    authKey = bcrypt.hashpw(token.encode('utf-8'), salt.encode())
     user = authentication.find_one({"authToken":authKey}).get("username")
     return user
 

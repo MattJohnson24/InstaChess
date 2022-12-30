@@ -13,7 +13,7 @@
 <body id="chessgamebelow">
     <main>
         <script>
-            const socket = io.connect('http://127.0.0.1:8081')
+            const socket = io.connect(window.location.origin)
             socket.on('connect', function () {
                 paths = window.location.pathname.split("/");
                 code = paths[paths.length - 1];

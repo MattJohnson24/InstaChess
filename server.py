@@ -36,7 +36,7 @@ def login():
             validLogin = bcrypt.checkpw(entered_password, password)
             if validLogin:
                 authToken = secrets.token_urlsafe(80)
-                hashedAuthToken = bcrypt.hashpw(authToken.encode('utf-8'), token)
+                hashedAuthToken = bcrypt.hashpw(authToken.encode('utf-8'), token.encode())
                 authentication.insert_one({"username": username, 'authToken': hashedAuthToken})
                 response = make_response(redirect('/play'))
                 response.set_cookie('auth', authToken)

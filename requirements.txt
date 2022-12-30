@@ -5,4 +5,3 @@ bs4
 flask-socketio 
 eventlet
 chess
-secrets

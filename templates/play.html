@@ -1,30 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>My Website</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='play.css')}}">
-  </head>
-  <body>
-    <main>
-      <form action="/create" method="post">
-        <label for="time">Choose a time</label>
-        <select id="time" name="time">
-          <option value="1">1</option>
-          <option value="3">3</option>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="30">30</option>
-        </select>
-        <label for="color">Choose a color</label>
-        <select id="color" name="color">
-          <option value="White">White</option>
-          <option value="Black">Black</option>
-          <option value="Random">Random</option>
-        </select>
-        <input type="submit" value="Submit">
-      </form>
-    </main>
-	<script src="index.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8">
+  <title>My Website</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='play.css')}}">
+  <link rel="icon" type="image/x-icon" href="/static/logo2.png">
+</head>
+
+<body>
+  <main>
+    <form action="/create" method="post">
+      <div class="time-color-submit-container">
+        <h1>Choose a time</h1>
+        <div class="time-container">
+          <select id="time" name="time">
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="30">30</option>
+          </select>
+        </div>
+        <h1>Choose a color</h1>
+        <div class="color-container">
+          <select id="color" name="color">
+            <option value="White">White</option>
+            <option value="Black">Black</option>
+            <option value="Random">Random</option>
+          </select>
+        </div>
+        <div class="submit-container">
+          <input id="game-create" type="submit" value="Submit">
+        </div>
+      </div>
+    </form>
+  </main>
+  <script src="index.js"></script>
+</body>
+
 </html>

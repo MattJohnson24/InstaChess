@@ -131,7 +131,7 @@ def game(code):
             winner = "Black wins"
             result = "TIME OUT"
         elif btime == "0":
-            winner = "Black wins"
+            winner = "White wins"
             result = "TIME OUT"
         else:
             winner = ""
@@ -139,7 +139,7 @@ def game(code):
     print(winner)
     print(result)
     if user == blackside:
-        return render_template("game.html", chat=chat, wtime=wtime, btime=btime, winner=winner, result=result, user1=game.get("White"),user2=game.get("Black"),color="Black", a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
+        return render_template("game.html", code=code, chat=chat, wtime=wtime, btime=btime, winner=winner, result=result, user1=game.get("White"),user2=game.get("Black"),color="Black", a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
     b1=boardmtx[7][1], b2=boardmtx[6][1], b3=boardmtx[5][1], b4=boardmtx[4][1], b5=boardmtx[3][1], b6=boardmtx[2][1], b7=boardmtx[1][1], b8=boardmtx[0][1],
     c1=boardmtx[7][2], c2=boardmtx[6][2], c3=boardmtx[5][2], c4=boardmtx[4][2], c5=boardmtx[3][2], c6=boardmtx[2][2], c7=boardmtx[1][2], c8=boardmtx[0][2],
     d1=boardmtx[7][3], d2=boardmtx[6][3], d3=boardmtx[5][3], d4=boardmtx[4][3], d5=boardmtx[3][3], d6=boardmtx[2][3], d7=boardmtx[1][3], d8=boardmtx[0][3],
@@ -148,7 +148,7 @@ def game(code):
     g1=boardmtx[7][6], g2=boardmtx[6][6], g3=boardmtx[5][6], g4=boardmtx[4][6], g5=boardmtx[3][6], g6=boardmtx[2][6], g7=boardmtx[1][6], g8=boardmtx[0][6],
     h1=boardmtx[7][7], h2=boardmtx[6][7], h3=boardmtx[5][7], h4=boardmtx[4][7], h5=boardmtx[3][7], h6=boardmtx[2][7], h7=boardmtx[1][7], h8=boardmtx[0][7])
     else:
-        return render_template("game.html", chat=chat, wtime=wtime, btime=btime, winner=winner, result=result, user1=game.get("White"),user2=game.get("Black"),color="White",a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
+        return render_template("game.html", code=code, chat=chat, wtime=wtime, btime=btime, winner=winner, result=result, user1=game.get("White"),user2=game.get("Black"),color="White",a1=boardmtx[7][0], a2=boardmtx[6][0], a3=boardmtx[5][0], a4=boardmtx[4][0], a5=boardmtx[3][0], a6=boardmtx[2][0], a7=boardmtx[1][0], a8=boardmtx[0][0], 
     b1=boardmtx[7][1], b2=boardmtx[6][1], b3=boardmtx[5][1], b4=boardmtx[4][1], b5=boardmtx[3][1], b6=boardmtx[2][1], b7=boardmtx[1][1], b8=boardmtx[0][1],
     c1=boardmtx[7][2], c2=boardmtx[6][2], c3=boardmtx[5][2], c4=boardmtx[4][2], c5=boardmtx[3][2], c6=boardmtx[2][2], c7=boardmtx[1][2], c8=boardmtx[0][2],
     d1=boardmtx[7][3], d2=boardmtx[6][3], d3=boardmtx[5][3], d4=boardmtx[4][3], d5=boardmtx[3][3], d6=boardmtx[2][3], d7=boardmtx[1][3], d8=boardmtx[0][3],

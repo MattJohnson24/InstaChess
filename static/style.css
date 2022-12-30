@@ -1,33 +1,70 @@
 body {
-    background-image: url("homeboard.png");
+    /* background-image: url("homeboard.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-blend-mode: lighten;
-    background-color: #ad974f;
-    background-attachment:fixed;
+    background-color: #ad974f;*/
+    background-attachment: fixed;
+    background-image: linear-gradient(64.3deg, rgba(254, 122, 152, 0.81) 17.7%, rgba(255, 206, 134, 1) 64.7%, rgba(172, 253, 163, 0.64) 112.1%);
 }
 
-.homeparent {
+.home-container {
     position: relative;
     display: flex;
     align-items: center;
-    margin:auto;
     justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    min-width: fit-content;
+    min-height: fit-content;
+}
+
+
+.register-container {
+    flex: 1;
+}
+
+.logo-container {
+    flex: 1;
+    padding-top: 30px;
     
-  }
+}
+
+.login-container {
+    flex: 1;
+}
 
 .logo {
-    position: relative;
-    width: 30%;
     z-index: 3;
+    mix-blend-mode: multiply;
+    height: 80vh;
+    width: auto;
 }
 
-.guest, .login {
-    background-color: #AD974F; /* Green */
+.guest,
+.login {
+    cursor: pointer;
+    /* Green */
     color: white;
-    padding: 35px 42px;
     text-align: center;
-    display: inline-block;
-    border-radius: 30px;
-    font-size: 32px;
+    border-radius: 10px;
+    font-size:4vmin;
+    font-weight: bold;
+    height: 15vh;
+    width: 25vh;
+    overflow: hidden;
+    min-width: fit-content;
+    min-height: fit-content;
+    border: none;
+    background-color: #5c6664;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
 }
+
+.guest:hover, .login:hover {
+    background-color: #000000;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    transform: translateY(-7px)
+  }

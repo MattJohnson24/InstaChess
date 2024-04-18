@@ -63,6 +63,7 @@ function tdclick(coordinate) {
                 }
                 else{
                     document.getElementById(String(moveArray[i])).style.backgroundColor = "red";
+                    document.getElementById(String(moveArray[i])).style.border = "solid #000000";
                 }
             }
         }

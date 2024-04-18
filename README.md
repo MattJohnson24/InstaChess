@@ -1,8 +1,11 @@
 # InstaChess
 
-## Steps to run locally
+## How to run locally
 
-Make sure that [Docker](https://www.docker.com/products/docker-desktop/) is installed and running.
+Requirements:
+
+Install [MongoDB Compass](https://www.mongodb.com/products/tools/compass)<br>
+Install [Docker](https://www.docker.com/products/docker-desktop/)
 
 In the InstaChess directory, you can run:
 

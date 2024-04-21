@@ -1,5 +1,8 @@
 # InstaChess
 
+## Website Video Tour
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/jvyUdiGBD7I/0.jpg)](https://www.youtube.com/watch?v=jvyUdiGBD7I)
+
 ## How to run locally
 
 Requirements:
@@ -16,6 +19,3 @@ Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
 
 The site is no longer hosted online.
 You can open [http://localhost:8080](http://localhost:8080) in incognito mode to simulate being the opposing player.
-
-## Website Video Tour
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/jvyUdiGBD7I/0.jpg)](https://www.youtube.com/watch?v=jvyUdiGBD7I)
